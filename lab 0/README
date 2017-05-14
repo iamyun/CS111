@@ -1,0 +1,85 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+===================================================================
+
+lab0.c:
+lab0.c is the C source module that, in default mode, copies its standard input to its 
+standard output by reading from file descriptor 0 and writeing to file 
+descriptor 1. If there is no errors, it will exit with a return code of 0. Besides
+the default mode, user have four optional command line arguments:
+--input=filename allows user to use the specific file as standard input. This 
+requires the user to provide an input file. If the input file provided does not 
+exist, output error message and exist with return code 2.
+--output=filename allows user to create the specific file and use it as standarad
+output. Report the failure and exit with retun code of 3 if failed to open the 
+specific output file. 
+--segfault forces a segamentation fault by dereferencing a NULL pointer. If this 
+argument is encountered, nothing will be copied from stdin to stdout. It will
+perform the segmentation fault first.
+--catch uses signal to register a SIGSEGV handler that catches the segmentation
+fault. If segmentation fault happened, output an error message and exit with a 
+return code of 4. 
+If an unrecognized argument is used, output error and correct form of usage, then
+exit with return code 1. 
+The operations are perform in the order such that it first process all arguments
+and store the results in variables: file descriptor for input file is stored in ifile,
+for output file is stored in ofile, mark segFlag if segmentation fault is encountered,
+mark catchFlag if catch is encountered. Once all arguments are processed, carry actions
+out in the order such that we first redirect both input and output, then register the 
+SIGSEGV handler before causing the segmentation fault. 
+
+
+Makefile:
+This Makefile build the program, check the program with a smoke test, clean extra files 
+generated from the smoke check, and build the tarball.
+The smoke test check for the 5 return cases:
+0 when copy successfully
+	- this test is preformed by fist creating the file in.txt with content "Good Night" in 
+	it, then create output file out.txt with the content in.txt. There should be no error
+	in this case, so we check if the program run successfully and exit with return code 0
+1 when encountered unregonized arguments
+	- this test is performed by calling lab0 with command --helloword, which is not a 
+	valid argument, then check if it exit with return code 1.
+2 when unable to open input file
+	- this test is performed by trying to copy contents from input file hi.txt to the
+	stdout, but hi.txt does not exist, so it should exist with return code 2.
+3 when unable to open output file
+	- this test is performed by first creating file hello.txt, then disbale the write 
+	authority to this file, call lab0 with argument --output=hello.txt. Since user no
+	longer has the authority to write on this file, it should exist with return code 3,
+	which indicates unable to output file.
+4 caught and received SIGSEGV
+	- this test is performed by having both the --segfault and --catch argument. This 
+	should cause the program to exist with return code 4. 
+
+backtrace.png:
+This is the screenshot of a segmentation fault and its associated stack-trace.
+It shows that the bad assignment is at line 111 in the main funtion of lab0.c. 
+
+breakpoint.png:
+This is the screenshot of the breakpoint at the line of bad assignment and the 
+variable inspection at that line. We set a breakpoint at line 111 (which we learned
+when creating the backtrace.png). It shows that we are assigning the value at address
+segfault to derefs. We do print segfault to see what address segfault is pointing to 
+and check what value that address contains, but we got segfault = 0, which is a nullptr,
+and we cannot have access to that address. 
+
+README:
+The README file contains identification information, descritpiton of the files included
+in the tarball, the smoke-test cases in the check target, and citation of resources that
+I used to help me understanding the functions.
+
+citations:
+http://man7.org/linux/man-pages/man3/getopt.3.html
+http://man7.org/linux/man-pages/man3/strerror.3.html
+http://man7.org/linux/man-pages/man2/signal.2.html
+http://man7.org/linux/man-pages/man2/exit.2.html
+http://man7.org/linux/man-pages/man2/write.2.html
+http://man7.org/linux/man-pages/man2/read.2.html
+http://man7.org/linux/man-pages/man2/dup.2.html
+http://man7.org/linux/man-pages/man2/close.2.html
+http://man7.org/linux/man-pages/man2/open.2.html
+https://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Options.html
+https://linux.die.net/man/3/optarg

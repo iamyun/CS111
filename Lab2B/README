@@ -1,0 +1,11 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+Questions 2.3.1 -- Cycles in the basic list implementation
+Where do you believe most of the cycles are spent in the 1 and 2-thread list tests?
+Why do you believe these to be the most expensive parts of the code?
+Where do you believe most of the time/cycles are being spen in the high-thread spin-lock tests?
+Where do you believe most of the time/cycles are being spent in the high-thread mutex tests?
+Answer 2.3.1
+- 

@@ -1,0 +1,49 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+README:
+	This README file contains identification information, description of the 
+	files included in the tarball (lab1b-client.c, lab1b-server.c, my.key, 
+	Makefile, README), as well as citation of resources that I used to help me 
+	implement the program.
+
+lab1b-client.c:
+	This file contains the C source module for the client terminal. 
+	It first sets the terminal to non-canonical mode, then creates a socket using the socket API and connects the client terminal to server with corresponding port number through TCP on localhost. 
+	Once it is connected with the server, it will send input from keyboard to both STDOUT and the socket, and send input from socket to STDOUT. ^D and ^C are treated as any other character here, no special execution is specified for them. 
+	API pollfd is used to have STDIN and socket wait for either input or error events, so there will be an alternation between input from keybpard and input from the socket.
+	If log option is included, data transferring between the client and socket will be recorded in a specific log file.
+	If encryption is included, data will be encrypted before sending to the socket and decrypted after receiving from the socket. Encryption is done using the API from the encryption library in the libmcrypt-dev package. I choose the twofish encryption algorithm from Linux libcrypt for this program. 
+	If encountered unrecognized argument or the argument is less than 2 (which means port is not specified), it will output an error message with the correct usage and exit the program with RC=1. 
+	Restore normal terminal modes before existing -- done through the atexit function.
+	Executable of this file contains 3 options:
+	--port=portno: this is a required argument because we won't know the correct port number without this argument, hence connection to the server won't be able to build successfully. 
+	--log=filename: if this option is included, a file with the filename specified in the option will be created to log the data that are send from client to socket and the data that the client received from the socket. If encrypt is also called, the content of this log file will also be encrypted.
+	--encryptfilename: if this option is included, data will be encrypted right before being send to the socket and will be decrypted right after it's received from the socket using the key stored in the file specified.
+
+lab1b-server.c:
+	This file contains the C source module for the server terminal.
+	It first creates a socket using the socket API, set the port number to the port number specified in the arguemnt and listen on the specific network socket. Then it accepts connection with the client, receives the client's commands throught the socket, and sends the commands to the shell. Once the shell returns the output of those commands, the server will send those output to the socket, which will then be serve to the client. 
+	Input received through the socket will be forwarded to the shell through the pipe. 
+	API pollfd is used to have shell and socket wait for either input or error events, so there will be an alternation between input from shell and input from the socket.
+	If ^C is received, kill the process and send the SIGINT signal to the shell.
+	If ^D is received, close the write side of the pipe to the shell, then it will run into POLLHUP and EOF signals will be sent to the server from shell.
+	If the server gets an EOF or SIGPIPE from the shell pipe, it will finish the remaining job, log the status to stderr, then exit with RC = 0
+	If server gets an EOF or read error from network connection, it will send a SIGTERM to the shell, which the shell will later send EOF to server and exit with RC = 0.
+	If encountered unrecognized argument or the argument is less than 2 (which means port is not specified), it will output an error message with the correct usage and exit the program with RC=1.
+	Executable of this file contains 2 options:
+	--port=portno: this is a required argument, because we won't know the correct port number without this argument, then it won't be able to build the correct network socket.
+	--encrypt=filename: if this option is included, data will be encrypted right before being send to the socket and will be decrypted right after it's received from the socket using the key stored in the file specified.
+
+my.key:
+	This file contains the string "yunxCS111", which is the encryption key to 
+	be used if the client and server wants to encrypt the messages that are sent.
+
+Makefile:
+	This is a makefile to build the program and the tarball. It contains:
+	default: default target which builds the executables for both the client and server
+	client: the distinct targets for the client which only builds the client executable
+	server: the distinct targets for the server which only builds the server executable
+	clean: removes all makefile-created files to return the directory to its just installed state
+	dist: build the distribution tarball

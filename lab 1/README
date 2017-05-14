@@ -1,0 +1,28 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+lab1a.c:
+lab1a.c is the C source module that, in default mode, set the terminal mode to
+non-canonical mode, and then print input from keyboard to STDOUT, exit(0), when
+encounter ^D. It also has a shell option, which both writes the input from keyboard
+to STDOUT as well as to the shell (/bin/bash for our case). When the shell receive
+the input, it will execute the input and write the result from shell to STDOUT. This
+is done by creating child process using fork(), pipe the two process, and then use
+poll to perform the alternation between input from the ketboad and the input from 
+the shell. When the program is exited normally in shell mode (exit(0)), it also 
+output the exit status. 
+
+Makefile:
+default -- compiles the files
+clean -- remove the executables and tarballs
+dist -- remove the unnecessary files and make a tarball with the specific files
+
+README:
+The README file contain identification information, descrition of the files included
+in the tarball, the Makefile, the lab1a.c file, and citation of resources that I used
+to help me understand the functions
+
+citation:
+GNU C Library
+linux man pages
