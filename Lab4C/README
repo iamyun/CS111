@@ -1,0 +1,34 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+README:
+	This README file contains identification information, description of the 
+	files included in the tarball (lab4b, Makefile, README), as well as citation 
+	of resources that I used to help me implement the program.
+
+lab4c_tcp.c:
+	This file contains the C source module for an embedded application that builds
+	and runs on an Edison. Its executable reads the temperature from the temperature
+	sensor and gets the local time, takes in argument id, host, log, and port number.
+	It operates by opening a TCP connection to the server at the specified address
+	and port, then immediately send the ID string terminated with a newline: 
+	ID=id-number\n, send the temperature reports to server, and process the commands
+	received from server over the connection.
+
+lab4c_tls.c:
+	Very similar to lab4c_tcp, except that it opens a TLS connection to the server
+	using socket and openSSL.
+
+Makefile:
+	This is a makefile to build the program and the tarball.
+	default:
+		default target which builds the program
+	clean: 
+		removes all makefile-generated programs and output
+	dist: 
+		create the deliverable tarball
+
+Citation/References for using SSL:
+	https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
+	https://www.openssl.org/docs/manmaster/man7/ssl.html

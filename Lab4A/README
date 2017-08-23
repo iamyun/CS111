@@ -1,0 +1,31 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+serial number: FZEDA629D02307501
+MAC addresses: 90:b6:86:11:a5:c8
+
+README:
+	This README file contains identification information, description of the files
+	included in the tarball (selfie.png, terminal.png, scp.png, helloWorld.png,
+	gitClone.png, README), as well as the serial number and MAC address of my Edison.
+
+selfie.png:
+	This file is a selfie picture of me holding my assembled Edison, showing that 
+	the chip is on the board.
+
+terminal.png:
+	This file is a screen shot that shows I have successfully established the USB 
+	terminal session. It shows the output after I ran the ifconfig command.
+
+scp.png:
+	This file is a screen shot of the dialog that shows up in WinSCP when I upload/copy 
+	a file to my Edison system.
+
+helloWorld.png:
+	This file is a screenshot of the compilation and execution of my helloWorld 
+	program after I connect my laptop to my Edison via WiFi.
+
+gitClone.png:
+	This file is a screenshot of the git clone command and directory listing after 
+	the repository has been successfully clone to the system.

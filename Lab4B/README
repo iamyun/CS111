@@ -1,0 +1,46 @@
+NAME: Yun Xu
+EMAIL: x_one_u@yahoo.com
+ID: 304635157
+
+README:
+	This README file contains identification information, description of the 
+	files included in the tarball (lab4b, Makefile, README), as well as citation 
+	of resources that I used to help me implement the program.
+
+lab4b.c:
+	This file contains the C source module for an embedded application that builds
+	and runs on an Edison. Its executable reads the temperature from the temperature
+	sensor and gets the local time. In default mode, configure rate is 1/sec, scale 
+	is in Fahrenheit, and no logging. For more options, the executable of this file
+	contains 3 options:
+	--period=#: sets the configure rate (how long to wait until the next output)
+	--scale=C/F: sets the temperature scale (either Celcius or Fahrenheit)
+	--log=filename: appends the report to a logfile named filename if this enabled.
+	The push-button on Digital input 3 can terminates the program and output time with
+	SHUTDOWN if pressed.
+	When the application is reading temperature and outputting the local time with 
+	temperature, it also waits and reads input command from stdin. Available commands
+	include:
+	OFF: terminates the program and output to studout (and log) like pressing the 
+		button.
+	STOP: the program stops generating reports, but continue processing input 
+		commands. 
+	START: If the program was stopped, cause the program to resume generating 
+		reports. 
+	SCALE=F: cause reports to be generated in degrees Fahrenheit
+	SCALE=C: cause reports to be generated in degrees Celcius
+	PERIOD=seconds: change the number of seconds between reproting intervals to
+		seconds.
+	All these commands will also be logged to the logfile.
+
+Makefile:
+	This is a makefile to build the program and the tarball.
+	default:
+		default target which builds the program
+	check: 
+		execute an automated smoke-test of my application to see if it runs
+		and can talk to its sensors.
+	clean: 
+		removes all makefile-generated programs and output
+	dist: 
+		create the deliverable tarball
